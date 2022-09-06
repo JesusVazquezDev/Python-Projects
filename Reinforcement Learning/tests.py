@@ -22,7 +22,7 @@ def evaluate_frozen_lake(Q_table, EPSILON, visualize=False):
     for i in range(100):
         obs = env.reset()
         done = False
-        while done == False:
+        while done is False:
             if random.uniform(0,1) < EPSILON:
                 action = env.action_space.sample()
             else:
