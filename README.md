@@ -1,6 +1,6 @@
 # Python-Projects
 
-#### Much of what is available at time of writing does not have README.md files, thus understanding the write programs and scripts may be difficult to understand. I intend on making this repo much more elegant however, academics are taking up a good amount of my time at the moment. Once I graduate, I'll revamp this repo.
+#### Much of what is available at time of writing does not have README.md files, thus understanding what specifications the programs and scripts had may be difficult to understand. I intend on making this repo much more elegant however, academics are taking up a good amount of my time at the moment. Once I graduate, I'll revamp this repo.
 
 #### Disclaimer: Students should not use any of the code in the repo as their own. If you do, you will face disciplinary action via the University. Just don't do it. 
 
