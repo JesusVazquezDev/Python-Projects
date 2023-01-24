@@ -1,3 +1,9 @@
-# COMPSCI 642 Information Security HW/Projects
+# Information Security
 
-Here you can find all of my university projects for CS642. 
+This repo contains two folders:
+
+- University Projects
+  - Homework and Projects created as part of COMPSCI 642[TODO: Need to add link]
+  
+- Personal Projects
+  - A mix of projects related to information security ranging from information      disclosure, OSINT content and more. 
