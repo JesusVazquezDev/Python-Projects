@@ -1,0 +1,9 @@
+# Part B:
+
+## Discussion of the current scheme
+
+The problem with the current scheme is that the IV value can be extracted directly from the cipher text with tag. Once the attacker gets this IV value, they can derive a malicious IV based on malicious plain text and add it back to the cipher text with tag. When the cipher text is decrypted, the assumed "safe" IV is used to decrypt the message. But since the IV has been strategically changed, the message could be different than what was originally sent.
+
+## Suggestions for improving the scheme
+
+To improve the current scheme, the IV should be included in the cipher text in a spot OTHER than the first 16 bytes. This makes the scheme asymmetric and more secure.

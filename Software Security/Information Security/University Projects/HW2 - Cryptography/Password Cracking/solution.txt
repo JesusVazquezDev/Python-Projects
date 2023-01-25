@@ -1,0 +1,21 @@
+# Part A:
+
+## Recovered password
+
+a) 25207039
+
+b) 03946715
+
+## Pseudocode for attack
+
+The algorithm is brute force algorithm. All possible numeric digit only passwords are generated from 1 to 8 digits. Each password that is generated is sha256 hashed with the given username and salt. When the result of this hash is equal to the given hash, the algorithm has found the desired password and will print it to the console.
+
+## Worst case running time
+
+The worst case running time occurs when the password is 99999999. In this situation --  111,111,110 passwords will be generated and checked.
+
+## Discussion of current proposal and suggestions for improvement
+
+The problem with the current proposal is that while random, the salt value is still known by the attacker. So cracking the password is still possible with brute force, because the only unkown value getting passed to the hash function is the password itself.
+
+To improve upon the current proposal, and additional "pepper" value should be added to the hash. But instead of storing the pepper value in the database along with the other values, the pepper should be a global value that is stored separately (and therefore not known by the attacker).

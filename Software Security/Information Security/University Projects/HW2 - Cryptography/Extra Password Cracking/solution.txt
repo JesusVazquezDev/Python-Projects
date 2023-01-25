@@ -1,0 +1,58 @@
+# Extra Credit
+
+Password = Badger1!
+
+## Pseudocode
+Password can be one of 4 combinations: 
+	A-Z 		a-z	 	0-9
+	A-Z 		a-z 		Punc
+	A-Z 		Punc 	0-9
+	a-z 		Punc 	0-9
+
+Thus, we iterate through the dataset, 
+	if len(password) < 6:
+		Move to the next password. 
+
+	if any character in the password is a int:
+			A-Z 		Punc 	0-9
+			a-z 		Punc 	0-9
+			A-Z 		a-z	 	0-9
+		We know it can only be 3 different combinations.
+		if any character is an UpperCase Alpha(A-Z):
+			We now only 2 options available 
+				A-Z 		Punc 	0-9
+				A-Z 		a-z	 	0-9
+				check if LowerCase Alpha(a-z) is present
+					VALID: A-Z 		a-z	 	0-9
+				check if punctuation is present
+					VALID: A-Z 		Punc 	0-9
+				else:
+					INVALID Password.
+
+We do this for all possible combinations:
+Comb1 =  A-Z 		a-z	 	0-9
+Comb2 =  a-z 		Punc 	0-9
+Comb3 =  A-Z 		a-z 		Punc
+Comb4 =  A-Z 		Punc 	0-9
+
+Psuedocode: 
+	for password in password_list:
+		if(comb1 == true):
+			process the hash and check for equality
+			if found, break and print password
+		elif(comb2 == true):
+			process the hash and check for equality
+			if found, break and print password
+		elif(comb3 == true):
+			process the hash and check for equality
+			if found, break and print password
+		elif(comb4== true):
+			process the hash and check for equality
+			if found, break and print password
+		else:
+			continue to next password
+
+Bruteforcing through the list, we end up discovering the password. 
+Time Complexity(Size of password dictionary(n))
+
+
