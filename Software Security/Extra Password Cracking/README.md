@@ -1,4 +1,4 @@
-More Password Cracking
+# More Password Cracking
 > **University Project:** Extra Credit in HW2 for CS642-Information Security
 
 Yet another colleague, to make the password cracking hard, uses a **slow hash function** named `scrypt`. 
